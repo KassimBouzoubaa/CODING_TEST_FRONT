@@ -15,12 +15,14 @@ import { TaskComponent } from '../task/task.component';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  lists!: List[];
+  lists: List[] = [];
   createListForm = new FormGroup({
     name: new FormControl(''),
+    priority: new FormControl(0), 
     content: new FormControl(''),
+    taskPriority: new FormControl(0), 
   });
-  newTasks: string[] = [];
+  newTasks: { content: string; priority: number }[] = [];
 
   constructor(private httpClient: HttpClient) {}
 
@@ -31,7 +33,8 @@ export class HomeComponent implements OnInit {
   addTask(event: Event) {
     event.preventDefault();
     const content = this.createListForm.get('content')?.value;
-    if (content) this.newTasks.push(content);
+    const priority = this.createListForm.get('priority')?.value ?? 0;
+    if (content) this.newTasks.push({ content, priority });
   }
 
   async createList() {
@@ -46,12 +49,19 @@ export class HomeComponent implements OnInit {
         ).then(() => this.fetchLists());
       });
 
-    this.createListForm.setValue({ name: '', content: '' });
+    this.createListForm.setValue({ name: '',taskPriority: 0,  content: '', priority: 0});
   }
 
   fetchLists() {
     firstValueFrom(this.httpClient.get('http://localhost:9000/lists')).then((lists: any) => {
+      lists.sort((a: any, b: any) => a.priority - b.priority);
+  
+      lists.forEach((list: any) => {
+        list.tasks.sort((a: any, b: any) => a.priority - b.priority);
+      });
+  
       this.lists = lists;
     });
   }
+  
 }

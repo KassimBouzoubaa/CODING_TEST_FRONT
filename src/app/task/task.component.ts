@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class TaskComponent {
   @Input() content!: string;
+  @Input() priority!: number; 
   @Input() id!: number;
   @Input() checked!: boolean;
 }

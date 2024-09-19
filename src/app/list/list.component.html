@@ -1,6 +1,6 @@
-<h1 class="title">
-  {{ name }}
-</h1>
-<div class="task-container">
-  <app-task *ngFor="let task of tasks" [content]="task.content" [id]="task.id" [checked]="task.checked"></app-task>
+<div class="list-container">
+  <h2>{{ name }} (Priority: {{ priority }})</h2>
+  <div class="tasks-container">
+    <app-task *ngFor="let task of tasks" [content]="task.content" [priority]="task.priority" [id]="task.id" [checked]="task.checked"></app-task>
+  </div>
 </div>

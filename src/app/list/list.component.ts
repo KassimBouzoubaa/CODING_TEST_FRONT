@@ -13,6 +13,7 @@ import { TaskComponent } from '../task/task.component';
 export class ListComponent implements OnInit {
   @Input() name!: string;
   @Input() id!: number;
+  @Input() priority!: number; 
   @Input() tasks!: Task[];
 
   ngOnInit() {}
