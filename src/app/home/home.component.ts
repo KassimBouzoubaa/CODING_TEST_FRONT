@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     content: new FormControl(''),
     taskPriority: new FormControl(0), 
   });
-  newTasks: { content: string; priority: number }[] = [];
+  newTasks: { content: string; taskPriority: number }[] = [];
 
   constructor(private httpClient: HttpClient) {}
 
@@ -33,15 +33,16 @@ export class HomeComponent implements OnInit {
   addTask(event: Event) {
     event.preventDefault();
     const content = this.createListForm.get('content')?.value;
-    const priority = this.createListForm.get('priority')?.value ?? 0;
-    if (content) this.newTasks.push({ content, priority });
+    const taskPriority = this.createListForm.get('taskPriority')?.value ?? 0;
+    if (content) this.newTasks.push({ content, taskPriority });
   }
 
   async createList() {
     const name = this.createListForm.get('name')?.value;
+    const priority = this.createListForm.get('priority')?.value;
 
     if (name)
-      firstValueFrom(this.httpClient.post('http://localhost:9000/lists', { name })).then((list: any) => {
+      firstValueFrom(this.httpClient.post('http://localhost:9000/lists', { name, priority})).then((list: any) => {
         Promise.all(
           this.newTasks.map((newTask) => {
             firstValueFrom(this.httpClient.post('http://localhost:9000/tasks', { listId: list.id, content: newTask }));

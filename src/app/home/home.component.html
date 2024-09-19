@@ -9,7 +9,7 @@
         <input type="number" formControlName="taskPriority" placeholder="Task priority (0 to 2)" min="0" max="2" />
         <button (click)="addTask($event)">+</button>
       </div>
-      <app-task *ngFor="let newTask of newTasks" [content]="newTask.content" [priority]="newTask.priority"></app-task>
+      <app-task *ngFor="let newTask of newTasks" [content]="newTask.content" [priority]="newTask.taskPriority"></app-task>
       <button (click)="createList()" type="submit">Add</button>
     </div>
   </form>
